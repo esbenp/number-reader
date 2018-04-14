@@ -1,3 +1,4 @@
+import sys
 import pandas as pd
 import numpy as np
 
@@ -11,11 +12,13 @@ X_test = pd.read_csv("./data/train.csv")
 X_test = X_test.drop(labels=["label"], axis=1)
 X_test = X_test / 255.0
 
-seven = np.array(X_test.values[509])
-
 # Reshape the 1D array into 4D
-as_4d = seven.reshape(1,28,28,1)
+reshaped_data = X_test.values.reshape(-1,28,28,1)
 
-prediction = model.predict_classes(as_4d)[0]
+image_index = int(sys.argv[1])
+
+image_data = np.array(reshaped_data[image_index])
+
+prediction = model.predict_classes(image_data.reshape(1,28,28,1))[0]
 
 print("The number is most likely a {}".format(prediction))

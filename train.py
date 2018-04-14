@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import sys
 
 np.random.seed(2)
 
@@ -62,7 +63,11 @@ learning_rate_reduction = ReduceLROnPlateau(monitor='val_acc',
                                             factor=0.5, 
                                             min_lr=0.00001)
 
-epochs = 10
+epochs = 2
+
+if (len(sys.argv) > 1):
+        epochs = int(sys.argv[1])
+
 batch_size = 86
 
 datagen = ImageDataGenerator(
@@ -80,6 +85,8 @@ datagen = ImageDataGenerator(
 
 
 datagen.fit(X_train)
+
+print("Training {} epochs".format(epochs))
 
 history = model.fit_generator(datagen.flow(X_train,Y_train, batch_size=batch_size),
                               epochs = epochs, validation_data = (X_val,Y_val),

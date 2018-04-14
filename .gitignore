@@ -1,2 +1,4 @@
 .vscode
 data/*.csv
+model.h5
+tmp.jpg
